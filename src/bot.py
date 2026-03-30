@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
-import datetime
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -16,6 +15,16 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 player_list = []
 queue = []
 
+def get_spots():
+    spots = ""
+    for i in range(len(player_list)):
+        spots += "✅ "
+
+    for i in range(5 - len(player_list)):
+        spots += "⬜ "
+
+    return spots
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
@@ -24,7 +33,8 @@ async def on_ready():
 async def on_reaction_add(reaction, user):
     # if user.name not in player_list:
     player_list.append(user.name)
-    await reaction.message.channel.send(f"{user.display_name} joined the team!")
+    await reaction.message.channel.send(f"{user.display_name} joined the team!\n"
+                                        f"Current spots: {get_spots()}")
 
 @bot.command()
 async def start(ctx, time="right now"):
@@ -38,10 +48,12 @@ async def start(ctx, time="right now"):
 
     await ctx.send(f"{role.mention} {ctx.author.display_name} wants to play Valorant {time}!\n "
                    f"React to this message in order to reserve your spot in the 5-stack!\n"
-                   f"Current spots: ✅ ⬜ ⬜ ⬜ ⬜", allowed_mentions=allowed)
+                   f"Current spots: {get_spots()}",
+                   allowed_mentions=allowed)
 
 @bot.command()
 async def list_players(ctx):
     await ctx.send(f"Current players in team: {player_list}")
+
 
 bot.run(TOKEN)
