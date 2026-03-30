@@ -28,5 +28,8 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def start(ctx, time="this time"):
     await ctx.send(f"{ctx.author.mention} wants to play Valorant at {time}!")
+@bot.command()
+async def list_players(ctx):
+    await ctx.send(f"Current players in team: {player_list}")
 
 bot.run(TOKEN)
