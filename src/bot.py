@@ -12,9 +12,18 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+player_list = []
+queue = []
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    # if user.name not in player_list:
+    player_list.append(user.name)
+    await reaction.message.channel.send(f"{user.display_name} joined the team!")
 
 @bot.command()
 async def start(ctx, time="this time"):
