@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+import datetime
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -16,7 +17,7 @@ async def on_ready():
     print(f"Logged in as {bot.user}")
 
 @bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+async def start(ctx, time="this time"):
+    await ctx.send(f"{ctx.author.mention} wants to play Valorant at {time}!")
 
 bot.run(TOKEN)
