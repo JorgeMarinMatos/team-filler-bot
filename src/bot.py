@@ -92,9 +92,23 @@ async def remove_me(ctx):
 
     if len(player_list) <= 0 and len(queue) <= 0:
         await ctx.send("There are no players left in the team filling session.\n"
-                       "Closing session...")
+                       "Closed session.")
         global is_bot_idle
         is_bot_idle = True
 
+@bot.command()
+async def close(ctx):
+    global is_bot_idle
+
+    if is_bot_idle:
+        await ctx.send("There is no team filling session to stop.")
+        return
+
+    is_bot_idle = True
+
+    player_list.clear()
+    queue.clear()
+
+    await ctx.send("Closed session.")
 
 bot.run(TOKEN)
