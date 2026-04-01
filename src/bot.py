@@ -75,6 +75,8 @@ async def remove_me(ctx):
             player_list.append(new_player)
             await ctx.send(f"{new_player} has been added to the team!")
 
+        await ctx.send(f"Current spots: {get_spots()}")
+
     else:
         await ctx.send(f"You are not in the player list or queue.")
 
