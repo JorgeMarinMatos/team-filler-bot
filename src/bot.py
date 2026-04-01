@@ -12,6 +12,8 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+is_bot_idle = True
+
 player_list = []
 queue = []
 
@@ -43,6 +45,14 @@ async def on_reaction_add(reaction, user):
 
 @bot.command()
 async def start(ctx, time="right now"):
+    global is_bot_idle
+
+    if not is_bot_idle:
+        await ctx.send("There is already an ongoing team filling session.")
+        return
+
+    is_bot_idle = False
+
     if time != "right now":
         time = "at " + time
 
