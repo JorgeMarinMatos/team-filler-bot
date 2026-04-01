@@ -60,5 +60,23 @@ async def start(ctx, time="right now"):
 async def list_players(ctx):
     await ctx.send(f"Current players in team: {player_list}")
 
+@bot.command()
+async def remove_me(ctx):
+    if ctx.author.name in queue:
+        queue.remove(ctx.author.name)
+        await ctx.send(f"{ctx.author.display_name} has been removed from the queue")
+
+    elif ctx.author.name in player_list:
+        player_list.remove(ctx.author.name)
+        await ctx.send(f"{ctx.author.display_name} has been removed from the team")
+
+        if len(queue) > 0:
+            new_player = queue.pop(0)
+            player_list.append(new_player)
+            await ctx.send(f"{new_player} has been added to the team!")
+
+    else:
+        await ctx.send(f"You are not in the player list or queue.")
+
 
 bot.run(TOKEN)
