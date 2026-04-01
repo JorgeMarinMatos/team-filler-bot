@@ -32,9 +32,14 @@ async def on_ready():
 @bot.event
 async def on_reaction_add(reaction, user):
     # if user.name not in player_list:
-    player_list.append(user.name)
-    await reaction.message.channel.send(f"{user.display_name} joined the team!\n"
-                                        f"Current spots: {get_spots()}")
+    if len(player_list) < 5:
+        player_list.append(user.name)
+        await reaction.message.channel.send(f"{user.display_name} joined the team!\n"
+                                            f"Current spots: {get_spots()}")
+    else:
+        queue.append(user.name)
+        await reaction.message.channel.send(f"{user.display_name} was addded to the queue.")
+
 
 @bot.command()
 async def start(ctx, time="right now"):
