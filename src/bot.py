@@ -90,5 +90,11 @@ async def remove_me(ctx):
     else:
         await ctx.send(f"You are not in the player list or queue.")
 
+    if len(player_list) <= 0 and len(queue) <= 0:
+        await ctx.send("There are no players left in the team filling session.\n"
+                       "Closing session...")
+        global is_bot_idle
+        is_bot_idle = True
+
 
 bot.run(TOKEN)
